@@ -1,16 +1,21 @@
 # Siigo API SDK para Java
 
+[![Maven Central](https://img.shields.io/maven-central/v/co.gldconsulting/siigo-api-sdk?label=Maven%20Central)](https://central.sonatype.com/artifact/co.gldconsulting/siigo-api-sdk)
+[![Build](https://github.com/gldconsulting/siigo-api-sdk-java/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/gldconsulting/siigo-api-sdk-java/actions/workflows/maven.yml)
+[![Java 21](https://img.shields.io/badge/Java-21-007396)](https://github.com/gldconsulting/siigo-api-sdk-java/blob/main/pom.xml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 SDK de **GLD Consulting S.A.S.** para la API REST de Siigo Colombia, con Java 21, Maven, Retrofit, OkHttp y Jackson. Licencia MIT.
 
 ```xml
 <dependency>
   <groupId>co.gldconsulting</groupId>
   <artifactId>siigo-api-sdk</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
-El repositorio contiene la versión de desarrollo. Esta referencia Maven no implica que el artefacto ya esté publicado en Central. Para consumirlo localmente, ejecutar `./mvnw install`; para una liberación pública se utilizará una versión sin `-SNAPSHOT`.
+La versión estable está publicada en [Maven Central](https://central.sonatype.com/artifact/co.gldconsulting/siigo-api-sdk). El ejemplo usa `co.gldconsulting:siigo-api-sdk:1.0.0`. La rama `main` contiene la siguiente versión de desarrollo; para consumirla localmente, ejecutar `./mvnw install` y usar la versión `-SNAPSHOT` indicada en `pom.xml`.
 
 ## Organización
 
