@@ -1,0 +1,105 @@
+name: Verify Maven Central signatures
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-signing:
+    runs-on: ubuntu-latest
+    environment: maven-central
+    env:
+      SIGNING_FINGERPRINT: 434B3A027E446955BD0F90E692F718364BF0676A
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java 21 and import the corporate signing key
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          server-id: central
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - name: Check the signing key and passphrase are available
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: |
+          python3 - <<'PYCODE'
+          import os
+          import subprocess
+          if not os.environ.get('MAVEN_GPG_PASSPHRASE'):
+              raise SystemExit('MAVEN_GPG_PASSPHRASE is missing or empty.')
+          key = subprocess.run(['gpg', '--batch', '--with-colons', '--list-secret-keys', os.environ['SIGNING_FINGERPRINT']],
+                               capture_output=True, text=True, check=True)
+          fingerprints = [row.split(':')[9] for row in key.stdout.splitlines() if row.startswith('fpr:')]
+          if os.environ['SIGNING_FINGERPRINT'] not in fingerprints:
+              raise SystemExit('The imported key is not the expected corporate key.')
+          print('Corporate signing key is available; no credential values were logged.')
+          PYCODE
+      - name: Build, test and sign without deploying
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: ./mvnw --batch-mode --no-transfer-progress -Prelease -Dgpg.keyname="$SIGNING_FINGERPRINT" -Dgpg.bestPractices=true clean verify
+      - name: Verify all four signatures with the published public key
+        run: |
+          python3 - <<'PYCODE'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+          import tempfile
+          import urllib.request
+          import xml.etree.ElementTree as ET
+
+          fingerprint = os.environ['SIGNING_FINGERPRINT']
+          root = ET.parse('pom.xml').getroot()
+          ns = {'m': 'http://maven.apache.org/POM/4.0.0'}
+          artifact_id = root.find('m:artifactId', ns).text
+          version = root.find('m:version', ns).text
+          stem = f'{artifact_id}-{version}'
+          expected = [f'{stem}.jar', f'{stem}-sources.jar', f'{stem}-javadoc.jar', f'{stem}.pom']
+          with urllib.request.urlopen('https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x' + fingerprint, timeout=30) as response:
+              public_key = response.read(2_000_000)
+          if b'-----BEGIN PGP PUBLIC KEY BLOCK-----' not in public_key:
+              raise SystemExit('The keyserver did not return a public key.')
+          rows = []
+          with tempfile.TemporaryDirectory(prefix='gld-public-signature-check-') as keyring:
+              base = ['gpg', '--homedir', keyring, '--batch']
+              subprocess.run(base + ['--import'], input=public_key, capture_output=True, check=True)
+              for name in expected:
+                  artifact = Path('target') / name
+                  signature = Path(str(artifact) + '.asc')
+                  if not artifact.is_file() or not signature.is_file():
+                      raise SystemExit(f'Missing artifact or signature: {name}')
+                  result = subprocess.run(base + ['--status-fd=1', '--verify', str(signature), str(artifact)],
+                                          capture_output=True, text=True)
+                  valid = [line.split()[2] for line in result.stdout.splitlines() if line.startswith('[GNUPG:] VALIDSIG ')]
+                  if result.returncode != 0 or valid != [fingerprint]:
+                      raise SystemExit(f'Signature verification failed or used an unexpected key: {name}')
+                  rows.append({'artifact': name, 'signerFingerprint': valid[0],
+                               'sha256': hashlib.sha256(artifact.read_bytes()).hexdigest(), 'verified': True})
+                  print(f'Verified {name}: {valid[0]}')
+          report = {'version': version, 'commit': os.environ['GITHUB_SHA'], 'published': False,
+                    'publicKeyServer': 'keyserver.ubuntu.com', 'signatures': rows}
+          Path('target/signing-verification.json').write_text(json.dumps(report, indent=2) + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write(f'### Corporate GPG signature verification\n\nVersion: `{version}`\n\n')
+              summary.write(f'Fingerprint: `{fingerprint}`\n\nVerified **4/4** detached signatures using the published public key in an isolated keyring.\n\n')
+              summary.write('This workflow runs Maven `verify` only. No publication was requested.\n')
+          PYCODE
+      - name: Retain signed artifacts and verification report
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-signature-verification
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            target/*.jar
+            target/*.jar.asc
+            target/*.pom
+            target/*.pom.asc
+            target/signing-verification.json
