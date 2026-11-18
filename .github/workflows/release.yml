@@ -1,0 +1,36 @@
+name: Prepare Maven Central deployment
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: maven-central
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require a release version
+        run: |
+          python3 - <<'PYCODE'
+          import xml.etree.ElementTree as ET
+          root = ET.parse('pom.xml').getroot()
+          version = root.find('{http://maven.apache.org/POM/4.0.0}version').text
+          if version.endswith('-SNAPSHOT'):
+              raise SystemExit('Set and review a non-SNAPSHOT release version before deployment.')
+          PYCODE
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - name: Verify, sign and upload for Portal review
+        run: ./mvnw --batch-mode --no-transfer-progress -Prelease clean deploy
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}

@@ -1,0 +1,513 @@
+{
+  "api": "Siigo API Colombia",
+  "sources": [
+    "https://siigoapi.docs.apiary.io/",
+    "https://developers.siigo.com/docs/siigoapi/",
+    "Audited Postman collection"
+  ],
+  "unique_method_paths": 69,
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/auth",
+      "resource": "co.gldconsulting.siigo.resource.AuthenticationResource",
+      "service": "co.gldconsulting.siigo.service.AuthenticationService",
+      "operation": "authenticate"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/products",
+      "resource": "co.gldconsulting.siigo.resource.accounting.ProductResource",
+      "service": "co.gldconsulting.siigo.service.accounting.ProductService",
+      "operation": "getProducts"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/products/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.ProductResource",
+      "service": "co.gldconsulting.siigo.service.accounting.ProductService",
+      "operation": "getProduct"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/products",
+      "resource": "co.gldconsulting.siigo.resource.accounting.ProductResource",
+      "service": "co.gldconsulting.siigo.service.accounting.ProductService",
+      "operation": "createProduct"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/products/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.ProductResource",
+      "service": "co.gldconsulting.siigo.service.accounting.ProductService",
+      "operation": "updateProduct"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/products/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.ProductResource",
+      "service": "co.gldconsulting.siigo.service.accounting.ProductService",
+      "operation": "deleteProduct"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/customers",
+      "resource": "co.gldconsulting.siigo.resource.accounting.CustomerResource",
+      "service": "co.gldconsulting.siigo.service.accounting.CustomerService",
+      "operation": "getCustomers"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/customers/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.CustomerResource",
+      "service": "co.gldconsulting.siigo.service.accounting.CustomerService",
+      "operation": "getCustomer"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/customers",
+      "resource": "co.gldconsulting.siigo.resource.accounting.CustomerResource",
+      "service": "co.gldconsulting.siigo.service.accounting.CustomerService",
+      "operation": "createCustomer"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/customers/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.CustomerResource",
+      "service": "co.gldconsulting.siigo.service.accounting.CustomerService",
+      "operation": "updateCustomer"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/invoices",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "getInvoices"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/invoices/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "getInvoice"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/invoices",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "createInvoice"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/invoices/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "updateInvoice"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/invoices/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "deleteInvoice"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/invoices/{id}/annul",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "annulInvoice"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/invoices/{id}/stamp/errors",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "getElectronicErrors"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/invoices/{id}/pdf",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "getInvoicePdf"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/invoices/{id}/xml",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "getInvoiceXml"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/invoices/{id}/mail",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "sendInvoiceByEmail"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/invoices/batch",
+      "resource": "co.gldconsulting.siigo.resource.accounting.InvoiceResource",
+      "service": "co.gldconsulting.siigo.service.accounting.InvoiceService",
+      "operation": "createInvoiceBatch"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/quotations",
+      "resource": "co.gldconsulting.siigo.resource.accounting.QuotationResource",
+      "service": "co.gldconsulting.siigo.service.accounting.QuotationService",
+      "operation": "getQuotations"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/quotations/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.QuotationResource",
+      "service": "co.gldconsulting.siigo.service.accounting.QuotationService",
+      "operation": "getQuotation"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/quotations",
+      "resource": "co.gldconsulting.siigo.resource.accounting.QuotationResource",
+      "service": "co.gldconsulting.siigo.service.accounting.QuotationService",
+      "operation": "createQuotation"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/quotations/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.QuotationResource",
+      "service": "co.gldconsulting.siigo.service.accounting.QuotationService",
+      "operation": "updateQuotation"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/quotations/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.QuotationResource",
+      "service": "co.gldconsulting.siigo.service.accounting.QuotationService",
+      "operation": "deleteQuotation"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/credit-notes",
+      "resource": "co.gldconsulting.siigo.resource.accounting.CreditNoteResource",
+      "service": "co.gldconsulting.siigo.service.accounting.CreditNoteService",
+      "operation": "getCreditNotes"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/credit-notes/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.CreditNoteResource",
+      "service": "co.gldconsulting.siigo.service.accounting.CreditNoteService",
+      "operation": "getCreditNote"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/credit-notes",
+      "resource": "co.gldconsulting.siigo.resource.accounting.CreditNoteResource",
+      "service": "co.gldconsulting.siigo.service.accounting.CreditNoteService",
+      "operation": "createCreditNote"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/credit-notes/{id}/pdf",
+      "resource": "co.gldconsulting.siigo.resource.accounting.CreditNoteResource",
+      "service": "co.gldconsulting.siigo.service.accounting.CreditNoteService",
+      "operation": "getCreditNotePdf"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/purchases",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PurchaseResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PurchaseService",
+      "operation": "getPurchases"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/purchases/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PurchaseResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PurchaseService",
+      "operation": "getPurchase"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/purchases",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PurchaseResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PurchaseService",
+      "operation": "createPurchase"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/purchases/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PurchaseResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PurchaseService",
+      "operation": "updatePurchase"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/purchases/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PurchaseResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PurchaseService",
+      "operation": "deletePurchase"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/journals",
+      "resource": "co.gldconsulting.siigo.resource.accounting.JournalResource",
+      "service": "co.gldconsulting.siigo.service.accounting.JournalService",
+      "operation": "getJournals"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/journals/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.JournalResource",
+      "service": "co.gldconsulting.siigo.service.accounting.JournalService",
+      "operation": "getJournal"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/journals",
+      "resource": "co.gldconsulting.siigo.resource.accounting.JournalResource",
+      "service": "co.gldconsulting.siigo.service.accounting.JournalService",
+      "operation": "createJournal"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/vouchers",
+      "resource": "co.gldconsulting.siigo.resource.accounting.VoucherResource",
+      "service": "co.gldconsulting.siigo.service.accounting.VoucherService",
+      "operation": "getVouchers"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/vouchers/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.VoucherResource",
+      "service": "co.gldconsulting.siigo.service.accounting.VoucherService",
+      "operation": "getVoucher"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/vouchers",
+      "resource": "co.gldconsulting.siigo.resource.accounting.VoucherResource",
+      "service": "co.gldconsulting.siigo.service.accounting.VoucherService",
+      "operation": "createVoucher"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/vouchers?type=MiscIncome",
+      "resource": "co.gldconsulting.siigo.resource.accounting.VoucherResource",
+      "service": "co.gldconsulting.siigo.service.accounting.VoucherService",
+      "operation": "createMiscIncome"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/purchase-support-documents",
+      "resource": "co.gldconsulting.siigo.resource.accounting.SupportDocumentResource",
+      "service": "co.gldconsulting.siigo.service.accounting.SupportDocumentService",
+      "operation": "createSupportDocument"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/purchase-support-documents/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.SupportDocumentResource",
+      "service": "co.gldconsulting.siigo.service.accounting.SupportDocumentService",
+      "operation": "getSupportDocument"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/purchase-support-documents/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.SupportDocumentResource",
+      "service": "co.gldconsulting.siigo.service.accounting.SupportDocumentService",
+      "operation": "deleteSupportDocument"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/purchase-support-documents/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.SupportDocumentResource",
+      "service": "co.gldconsulting.siigo.service.accounting.SupportDocumentService",
+      "operation": "updateSupportDocument"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/payment-receipts",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PaymentReceiptResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PaymentReceiptService",
+      "operation": "createPaymentReceipt"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/payment-receipts/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PaymentReceiptResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PaymentReceiptService",
+      "operation": "getPaymentReceipt"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/payment-receipts/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PaymentReceiptResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PaymentReceiptService",
+      "operation": "deletePaymentReceipt"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/payment-receipts",
+      "resource": "co.gldconsulting.siigo.resource.accounting.PaymentReceiptResource",
+      "service": "co.gldconsulting.siigo.service.accounting.PaymentReceiptService",
+      "operation": "getPaymentReceipts"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/account-groups",
+      "resource": "co.gldconsulting.siigo.resource.catalog.InventoryCategoryResource",
+      "service": "co.gldconsulting.siigo.service.catalog.InventoryCategoryService",
+      "operation": "getAccountGroups"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/account-groups",
+      "resource": "co.gldconsulting.siigo.resource.catalog.InventoryCategoryResource",
+      "service": "co.gldconsulting.siigo.service.catalog.InventoryCategoryService",
+      "operation": "createAccountGroup"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/account-groups/{id}",
+      "resource": "co.gldconsulting.siigo.resource.catalog.InventoryCategoryResource",
+      "service": "co.gldconsulting.siigo.service.catalog.InventoryCategoryService",
+      "operation": "updateAccountGroup"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/taxes",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getTaxes"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/misc-incomes",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getMiscIncomes"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/expenses",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getExpenses"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/warehouses",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getWarehouses"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/cost-centers",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getCostCenters"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/price-lists",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getPriceLists"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/fixed-assets",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getFixedAssets"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/document-types",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getDocumentTypes"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/payment-types",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getPaymentTypes"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/users",
+      "resource": "co.gldconsulting.siigo.resource.catalog.CatalogResource",
+      "service": "co.gldconsulting.siigo.service.catalog.CatalogService",
+      "operation": "getUsers"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/test-balance-report",
+      "resource": "co.gldconsulting.siigo.resource.reporting.ReportResource",
+      "service": "co.gldconsulting.siigo.service.reporting.ReportService",
+      "operation": "getTestBalance"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/test-balance-report-by-thirdparty",
+      "resource": "co.gldconsulting.siigo.resource.reporting.ReportResource",
+      "service": "co.gldconsulting.siigo.service.reporting.ReportService",
+      "operation": "getThirdPartyTestBalance"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/accounts-payable",
+      "resource": "co.gldconsulting.siigo.resource.reporting.ReportResource",
+      "service": "co.gldconsulting.siigo.service.reporting.ReportService",
+      "operation": "getAccountsPayable"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/webhooks",
+      "resource": "co.gldconsulting.siigo.resource.accounting.WebhookResource",
+      "service": "co.gldconsulting.siigo.service.accounting.WebhookService",
+      "operation": "getWebhooks"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/webhooks",
+      "resource": "co.gldconsulting.siigo.resource.accounting.WebhookResource",
+      "service": "co.gldconsulting.siigo.service.accounting.WebhookService",
+      "operation": "createWebhook"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/webhooks",
+      "resource": "co.gldconsulting.siigo.resource.accounting.WebhookResource",
+      "service": "co.gldconsulting.siigo.service.accounting.WebhookService",
+      "operation": "updateWebhook"
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/webhooks/{id}",
+      "resource": "co.gldconsulting.siigo.resource.accounting.WebhookResource",
+      "service": "co.gldconsulting.siigo.service.accounting.WebhookService",
+      "operation": "deleteWebhook"
+    }
+  ],
+  "excluded_undocumented_legacy": [
+    "DELETE /v1/customers/{id}",
+    "GET /v1/asset-groups"
+  ],
+  "notes": [
+    "Purchase date ranges are filtered locally after verified pagination.",
+    "Payment receipt list returns JsonNode because its response schema is not published in the supplied sources.",
+    "Invoice batch response preserves vendor fields through ApiModel.",
+    "Accounts payable due_date_end/date_end discrepancy requires explicit caller choice.",
+    "JournalService.getJournalsByDate filters journal.date locally after verified pagination. Live test 2026-11-18 observed remote date_start/date_end (date-only and RFC3339) and document_id ignored; name respected. Raw journal list methods retain server behavior.",
+    "Journal filter investigation 2026-11-18: 14 encoded SDK URLs matched independent JDK HTTP responses. Date ranges and numeric document_id did not restrict results; name worked. The official narrative mentions document_id but the interactive schema omits it. Document-date LocalDate overloads now emit UTC RFC3339 boundaries; String values remain explicit. Internal server cause unconfirmed."
+  ]
+}
