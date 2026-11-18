@@ -1,6 +1,6 @@
 # Siigo API SDK Java
 
-- Proyecto Maven de un solo módulo; Java 21. Coordenadas `co.gldconsulting:siigo-api-sdk:1.0.0-SNAPSHOT`.
+- Proyecto Maven de un solo módulo; Java 21. Coordenadas `co.gldconsulting:siigo-api-sdk`; consultar la versión actual en `pom.xml`.
 - Package base `co.gldconsulting.siigo`.
 - Mantener modelos en `model`, contratos Retrofit en `resource` e interfaces públicas/filtros en `service`. Las implementaciones internas y fábricas están en el package base, siguiendo la referencia de Yahoo con el nivel client eliminado.
 - Partner-Id y Authorization se agregan con interceptores; no añadirlos como argumentos de los métodos de servicio.
@@ -9,8 +9,10 @@
 - Usar BigDecimal para importes y LocalDate para fechas contables. No convertir errores o paginación incompleta en resultados vacíos exitosos.
 - Validar con `./mvnw clean verify`. Las pruebas HTTP locales no requieren credenciales; las reales son optativas y solo de lectura.
 - Mantener secretos fuera del repositorio. Conservar la licencia MIT de GLD Consulting.
-- Consultar README y `src/main/resources/siigo-api-coverage.json` para cobertura y discrepancias de documentación. La publicación es manual, mediante el perfil release y Central Portal.
+- Consultar README y `src/main/resources/siigo-api-coverage.json` para cobertura y discrepancias de documentación. El workflow de release se inicia manualmente y automatiza publicación, GitHub Release y próximo snapshot; no ejecutarlo con dryRun=false sin una solicitud de publicación.
 
 - Para consultar comprobantes por fecha contable, usar `JournalService.getJournalsByDate`: filtrado local inclusivo tras paginación completa. En la prueba real del 18-11-2026 Siigo ignoró los filtros remotos de journals `date_start`, `date_end` y `document_id`; `name` sí funcionó. Conservar la distinción entre diagnóstico remoto y validación del SDK.
 
 - Investigación de filtros de journals 18-11-2026: 14 URLs comparadas con SDK y HTTP directo dieron iguales totales/IDs; fechas contables y document_id no restringieron resultados. No atribuir una causa interna confirmada. JournalsFilter.setDateStart/End(LocalDate) ahora usa límites UTC RFC3339; las sobrecargas de texto conservan timestamps explícitos. README documenta la evidencia y la prueba optativa JournalFilterContractLiveIT.
+
+- La automatización de release está en `.github/scripts/release.py`; `releaseMajorVersion` y `releaseMinorVersion` controlan el snapshot posterior al release actual y son excluyentes. Mantener pruebas del ciclo Git, recuperación e idempotencia. La ejecución real espera el estado published de Central antes del GitHub Release y del incremento.

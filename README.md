@@ -271,15 +271,50 @@ Esta prueba valida la equivalencia del transporte y registra el comportamiento r
 
 ## Publicación en Maven Central
 
-La configuración utiliza el **Central Publisher Portal**, no el antiguo servicio OSSRH. La publicación se activa únicamente con el perfil `release` y la fase `deploy`. `autoPublish` está desactivado, de modo que el bundle queda pendiente de revisión/liberación en el Portal.
+La cuenta corporativa usa el namespace verificado `co.gldconsulting` y la clave GPG de GLD Consulting S.A.S. (`tecnologia@gld.consulting`), con huella pública `434B3A027E446955BD0F90E692F718364BF0676A`. La publicación se ejecuta desde GitHub Actions, en el entorno `maven-central`.
 
-1. Verificar el namespace `co.gldconsulting` en Central y obtener un token de publicación.
-2. Configurar el servidor Maven con id `central` y la firma GPG fuera del repositorio. Hay una plantilla en `.maven/settings.xml.example`.
-3. Cambiar la versión a la versión de liberación sin `-SNAPSHOT`, revisar los cambios y ejecutar `./mvnw clean verify`.
-4. Preparar JAR, fuentes y Javadoc sin publicar: `./mvnw -Prelease -Dgpg.skip=true verify`.
-5. Cuando corresponda publicar: `./mvnw -Prelease clean deploy`. Revisar el deployment en Central antes de liberarlo.
+El workflow **Release SDK to Maven Central** (`release.yml`) se inicia manualmente desde `main` y realiza el proceso completo:
 
-El workflow `maven.yml` compila y prueba en Java 21. `release.yml` solo se dispara manualmente, requiere una versión de liberación y usa el entorno `maven-central` y secretos configurados por el mantenedor.
+1. Lee la versión actual `X.Y.Z-SNAPSHOT` y prepara `X.Y.Z` en el POM y `scm/tag`.
+2. Guarda un commit de release y el tag anotado `vX.Y.Z` en una operación Git atómica.
+3. Compila en Java 21, ejecuta las pruebas, genera fuentes/Javadoc y firma con la clave corporativa.
+4. Sube a Central con `autoPublish=true` y espera a que Sonatype confirme **published**.
+5. Crea el GitHub Release del tag con notas generadas automáticamente.
+6. Solo entonces guarda y sube el siguiente `-SNAPSHOT`, dejando `scm/tag=HEAD`.
+
+Los parámetros controlan la versión de desarrollo **posterior** al release actual:
+
+| releaseMajorVersion | releaseMinorVersion | Release desde `1.0.0-SNAPSHOT` | Próxima versión |
+| --- | --- | --- | --- |
+| false | false | `1.0.0` | `1.0.1-SNAPSHOT` |
+| false | true | `1.0.0` | `1.1.0-SNAPSHOT` |
+| true | false | `1.0.0` | `2.0.0-SNAPSHOT` |
+| true | true | La ejecución se rechaza | Sin cambios |
+
+Ambos parámetros vienen desactivados. `dryRun` también viene desactivado: una ejecución normal publica automáticamente, sin aprobación posterior en Central Portal. Con `dryRun=true` se muestran las versiones previstas sin crear commits de versión, tags, publicaciones ni GitHub Releases. La ejecución real exige una versión `X.Y.Z-SNAPSHOT`; el incremento siempre reinicia a cero los componentes inferiores para major/minor.
+
+El entorno o los secretos heredados del repositorio deben proporcionar:
+
+| Secreto | Contenido |
+| --- | --- |
+| `MAVEN_CENTRAL_USERNAME` | Usuario generado por Sonatype para el token corporativo |
+| `MAVEN_CENTRAL_PASSWORD` | Token de publicación de Sonatype |
+| `MAVEN_GPG_PRIVATE_KEY` | Clave privada corporativa exportada en ASCII y protegida con contraseña |
+| `MAVEN_GPG_PASSPHRASE` | Contraseña de esa clave |
+
+El workflow usa `GITHUB_TOKEN` con `contents: write` para los commits, tags y el GitHub Release; no necesita un token personal adicional. Las reglas de la rama deben permitir esas operaciones al workflow. Las ejecuciones de release se serializan y no se cancelan cuando se solicita otra. Los commits realizados con `GITHUB_TOKEN` no provocan un ciclo de workflows de `push`.
+
+`.github/release-state.json` registra el release pendiente/completado y el incremento elegido. Si hay un fallo, una nueva ejecución retoma el tag pendiente y conserva ese incremento. Si el POM de esa versión ya está visible en Central, se omite la subida y se continúa con el GitHub Release y el siguiente snapshot. Si Central aún no refleja una publicación que quedó con estado incierto, puede rechazar una subida duplicada; consultar el despliegue en Portal y reintentar cuando la publicación esté visible. Los tags existentes nunca se mueven ni sobrescriben. Reejecutar un run completado no publica otra versión; iniciar un run nuevo sí prepara el siguiente release.
+
+El proceso deja la versión de release y el estado pendiente en `main` si la publicación falla; no avanza al siguiente snapshot antes de completar la publicación y el GitHub Release. Un fallo al escribir en una rama protegida detiene el flujo, sin forzar cambios ni ignorar sus reglas.
+
+`verify-signing.yml` mantiene la verificación independiente, sin publicar, de las cuatro firmas del JAR, fuentes, Javadoc y POM usando la clave pública publicada. `maven.yml` ejecuta las pruebas del SDK y las pruebas del ciclo de release. Estas últimas usan repositorios Git temporales y publicadores simulados:
+
+```sh
+python3 -B -m unittest discover -s .github/scripts -p 'test_*.py' -v
+```
+
+El perfil Maven `release` conserva `central.autoPublish=false` y `central.waitUntil=validated` como valores predeterminados fuera del workflow; el workflow los cambia explícitamente a `true` y `published`. Preparar los artefactos sin firmar ni publicar sigue siendo posible con `./mvnw -Prelease -Dgpg.skip=true verify`. No se almacenan credenciales en el POM ni en los scripts.
 
 ## Fuentes y licencia
 

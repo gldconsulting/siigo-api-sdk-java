@@ -41,6 +41,8 @@
         <okhttp.version>4.12.0</okhttp.version>
         <jackson.version>2.19.4</jackson.version>
         <junit.version>5.12.2</junit.version>
+        <central.autoPublish>false</central.autoPublish>
+        <central.waitUntil>validated</central.waitUntil>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -194,7 +196,8 @@
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>central</publishingServerId>
-                            <autoPublish>false</autoPublish>
+                            <autoPublish>${central.autoPublish}</autoPublish>
+                            <waitUntil>${central.waitUntil}</waitUntil>
                         </configuration>
                     </plugin>
                 </plugins>
