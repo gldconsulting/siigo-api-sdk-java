@@ -1,9 +1,10 @@
 {
+  "completedByRunId": "44381813825",
   "nextDevelopmentVersion": "1.0.1-SNAPSHOT",
   "releaseVersion": "1.0.0",
   "runId": "44381813825",
   "schemaVersion": 1,
   "sourceSha": "79537d8160869a68dacb85012dbdb1ac8d23a038",
-  "status": "prepared",
+  "status": "completed",
   "tag": "v1.0.0"
 }
